@@ -265,3 +265,57 @@ If you want, I can also help you:
 * create a user with sudo privileges
 * understand file permissions and home directory ownership
 * diagnose other user-switching issues
+
+
+# `ls -l` again
+- `drwxr-xr-x 5 root root 4096 Dec 5 10:47 charsets`
+- First character: File Type
+- Rest of the section: Permissions of file for owner, groups, and users, respectively.
+- Number of links.
+- Owner of the file
+- The size of the file in bytes
+- When the file was created or last modified
+- The name of the file
+- The first character tells you the file type, where d stands for a directory
+and a dash (–) indicates a file. These are the two most common file types.
+The next section defines the permissions on the file. There are three sets
+of three characters, made of some combination of read (r), write (w), and
+execute (x), in that order. The first set represents the permissions of the
+owner; the second, those of the group; and the last, those of all other users.
+
+- Regardless of which set of three letters you’re looking at, for files, if
+you see an r first, that user or group of users has permission to open and
+read that file or directory. A w as the middle letter means they can write to
+(modify) the file, and an x at the end means they can execute (or run) the
+file or access the directory. If any r, w, or x is replaced with a dash (-), then
+the respective permission hasn’t been given. Note that users can have permission
+to execute only either binaries or scripts.
+
+# Change permissions with decimal notation
+| **Binary** | **Octal** | **rwx**|
+| --- | --- | --- |
+| 000 | 0 | --- |
+| 001 | 1 | --x |
+| 010 | 2 | -w- |
+| 011 | 3 | -wx |
+| 100 | 4 | r-- |
+| 101 | 5 | r-w |
+| 110 | 6 | rw- |
+| 111 | 7 | rwx |
+
+- Only read (r--) corresponds to 4, write (-w-) and execute (--x) corresponds to 2 and 1 respectively. When all permissions are on, the octal equivalent is 7 (4 + 2 + 1).
+- So, if we wanted to represent all permissions for the owner, group, and
+all users, we could write it as follows: 7 7 7
+- `chmod 774 hashcat.hcstat` gives the owner all permissions, the group all permissions, and others (users) only the read permission.
+
+# Changing permissions with UGO (user, group, others)
+- Enter the chmod command and then the users
+you want to change permissions for, providing u for user, g for group, or o for
+others, followed by one of three operators:
+- `-` Removes a permission
+- `+` Adds a permission
+- `=` Sets a permission
+- `chmod u-w hashcat.hcstat2` says to remove (-) the write (w) permission for hashcat.hcstat for the user (u).
+- `chmod u+x, o+x hashcat.hcstat2` says to add the execute permission for the user aswell as the others for the file hashcat.hcstat2.
+
+# Giving Root Execute Permission on a new tool
